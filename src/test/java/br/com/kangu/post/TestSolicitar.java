@@ -91,11 +91,10 @@ public class TestSolicitar {
                 .body(solicitar)
                 .when()
                 .post("/solicitar")
-                .prettyPrint();
-                //.then()
-        //.statusCode(500)
-        //       .body("error.codigo", Matchers.equalTo(500))
-        //      .body("error.mensagem", Matchers.equalTo("Parametro 'token' n\\u00e3o encontrado no header. Insira  a palavra 'token' como chave no header. Ex: \\n    \\t\\t\\t\\t curl -H 'Content-Type: application\\/json; token: fBF27...AS; ' ..... "));
+                .then()
+                .statusCode(500)
+                .body("error.codigo", Matchers.equalTo(500))
+                .body("error.mensagem", Matchers.equalTo("Parametro 'token' n\\u00e3o encontrado no header. Insira  a palavra 'token' como chave no header. Ex: \\n    \\t\\t\\t\\t curl -H 'Content-Type: application\\/json; token: fBF27...AS; ' ..... "));
     }
 
     @Test
@@ -112,27 +111,23 @@ public class TestSolicitar {
 
         Produto produto = new Produto(1.2, 1.2, 1.2, 1.2, "produto", 1.2, 1);
 
-        Pedido pedido = new Pedido("D", "numero", "serie", "chave", "chaveCTe", "xml", "numeroCli", 1.2, 1.2);
+        Pedido pedido = new Pedido("tipo", "numero", "serie", "chave", "chaveCTe", "xml", "numeroCli", 1.2, 1.2);
 
         Volume volume = new Volume(1.2, 1.2, 1.2, 1.2, "tipo", "produto", "ean", 1.2, 1, "numeroCli");
 
         Solicitar solicitar = new Solicitar();
 
-        solicitar.setPedido(pedido);
-
-
         RestAssured
-                .given().log().all()
+                .given()
                 .header("token", "a63a46ed8cdac8e6f3f954f619d4a00d")
                 .contentType(ContentType.JSON)
                 .body(solicitar)
                 .when()
                 .post("https://portal.kangu.com.br/tms/transporte/solicitar")
-                .prettyPrint();
-                /*.then()
+                .then()
                 .statusCode(500)
                 .body("error.codigo", Matchers.equalTo(422))
-                .body("error.mensagem", Matchers.contains("Contrato não permite {regra} "));*/
+                .body("error.mensagem", Matchers.contains("Contrato não permite {regra} "));
     }
 
     @Test
